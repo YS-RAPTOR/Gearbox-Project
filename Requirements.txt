@@ -1,0 +1,34 @@
+Motor Characteristics
+    - Power (W) = 6.44
+    - Torque (Nm) = 0.00784532
+    - Speed (RPM) = 7845
+
+Gear Box Chasis Design (W)
+    - As Compact as Possible
+    - Use as little power as Possible
+    - Pull the weigth as fast as possible
+    - Pull the weight 1m up an incline (D)
+    - Minimum base of 50mm
+
+Shaft Constraints:
+    - Diameter = 6mm
+    
+
+Gear Ratio (D)
+    > Output Torque
+        - Force to Pull the Weight (N) = 50.291202044940235
+        - Friction Coefficient = 0.45
+        - Minimum Torque (Nm) = 0.3067763324741354
+    > Material Constraints
+        - Size = 210mm (L) x 297mm (W) x 3mm (D)
+        - Material = PMMA
+    > Stages 
+        - Stages > 3
+
+Locking mechanism
+Cant Leak lubricant
+
+Gear Box is attached to the testbench using M6 screws
+Using a string an a hook
+Spur Gears
+    

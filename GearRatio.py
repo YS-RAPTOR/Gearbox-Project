@@ -12,6 +12,7 @@ def FindGearRatio(friction_coefficient, incline_deg, weight_kg, motor_torque_gcm
     
     # Torque = Force * Radius
     Torque_to_move_box = min_force * (shaft_radius/1000)
+    print("Torque to move box: ", Torque_to_move_box)
 
     return Torque_to_move_box / motor_torque_Nm
 

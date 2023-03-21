@@ -1,0 +1,93 @@
+import math
+import packcircles as pc
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from matplotlib.cm import get_cmap
+
+def FindRadii(gears : list[int], first, smallest) -> list[float]:
+    radii = [gears[0] * first]
+    for gear in gears[1:]:
+        radii.append(gear * smallest)
+        radii.append(smallest)
+
+    return radii
+
+def AddSpacing(radii : list[float], spacing) -> list[float]:
+    return [radius + spacing for radius in radii]
+
+def MeetsRequiredRatio (gears : list[int], threshold) -> bool:
+    ratio = gears[0]
+    for gear in gears[1:]:
+        ratio *= gear
+
+    print("Ratio Achieved is: " + str(ratio))
+
+    return ratio >= threshold
+
+def CanPack(radii : list[float], size) -> tuple[bool, tuple[float], list[tuple[float]]]:
+    maxX = -math.inf
+    maxY = -math.inf
+    minX = math.inf
+    minY = math.inf
+
+    circles = pc.pack(radii)
+
+    for (x, y, r) in circles:
+        minX = min(minX, x - r)
+        minY = min(minY, y - r)
+        maxX = max(maxX, x + r)
+        maxY = max(maxY, y + r)
+
+    return (maxX - minX <= size[0] and maxY - minY <= size[1]), (maxX , minX, maxY , minY), circles
+
+def Draw(circles, size, top, left):
+    fig, ax = plt.subplots()
+    cmap = get_cmap('coolwarm_r')
+    circles = pc.pack(radii)
+    for (x,y,radius) in circles:
+        patch = patches.Circle(
+            (x,y),
+            radius,
+            color=cmap(radius/max(radii)),
+            alpha=0.65
+        )
+        ax.add_patch(patch)
+
+    ax.set_xlim(-1.5 * size[1], 1.5 * size[1])
+    ax.set_ylim(-1.5 * size[1], 1.5 * size[1])
+
+    ax.add_patch(patches.Rectangle((left, top - size[1]), size[0], size[1], fill=False, edgecolor='black', linewidth=2))
+
+    plt.axis('off')
+
+    plt.show()
+
+if __name__ == "__main__":
+    """INPUT VARIABLES"""
+    gears = [1,2,2,2,2,3]
+    draw = True
+
+    size = (210, 297)
+    area = size[0] * size[1]
+
+    first_radius_mm = 18.5/2
+    min_radius = 9
+    max_radius = max(size)/2
+
+    radius_spacing = 0.2
+
+    threshold_gear_ratio = 44
+
+    
+
+    radii = FindRadii(gears, first_radius_mm, min_radius)
+    radii = AddSpacing(radii, radius_spacing)
+
+    MeetsRequiredRatio(gears, threshold_gear_ratio)
+
+    canPack, minSize, circles = CanPack(radii, size)
+
+    print("Can Pack: " + str(canPack))
+    print("Packed Size: " + str((minSize[0] - minSize[1], minSize[2] - minSize[3])))
+    if draw:
+        Draw(circles, size, minSize[2], minSize[1])
