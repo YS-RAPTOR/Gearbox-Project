@@ -7,7 +7,7 @@ def FindGearRatio(friction_coefficient, incline_deg, weight_kg, motor_torque_gcm
     normal_force = weight * math.cos(incline_rad)
     friction_force = normal_force * friction_coefficient
     min_force = weight * math.sin(incline_rad) + friction_force
-    
+
     motor_torque_Nm = (motor_torque_gcm / (1000 * 100)) *9.81
     
     # Torque = Force * Radius
@@ -26,25 +26,39 @@ def calculate_worst_case_radius(wrap_around_length, wrap_around_initial_radius, 
         for _ in range(no_of_lengthwise_wraps):
             circumference = 2 * math.pi * radius
             length -= circumference
+
+            if length < 0:
+                break
+
         radius += string_thickness_mm
 
     return radius
 
 if __name__ == "__main__":
+    """INPUT VARIABLES"""
+    # Test bench Info
     friction_coefficient = 0.45
     incline_deg = 45
     weight_kg = 5
+
+    # Motor Info
     motor_torque_gcm = 80
+
+    # Shaft Info
     shaft_diameter_mm = 6
     shaft_tolerance_mm = 0.2
-    shaft_radius_corrected = (shaft_diameter_mm + shaft_tolerance_mm) / 2
-    length_between_bolts_mm = 50
 
+    # String Info
     string_length_mm = 1000
-    string_thickness_mm = 1
-    string_rotation_window_percentage = 0.4
+    string_thickness_mm = 0.165
+    string_holder_length = 20
 
-    print("Gear Ratio: ", FindGearRatio(friction_coefficient, incline_deg, weight_kg, motor_torque_gcm, calculate_worst_case_radius(length_between_bolts_mm * string_rotation_window_percentage,shaft_radius_corrected, string_length_mm, string_thickness_mm)))
+    """END INPUT VARIABLES"""
+
+    shaft_radius_corrected = (shaft_diameter_mm + shaft_tolerance_mm) / 2
+    worst_case_radius = calculate_worst_case_radius(string_holder_length,shaft_radius_corrected, string_length_mm, string_thickness_mm)
+
+    print("Gear Ratio: ", FindGearRatio(friction_coefficient, incline_deg, weight_kg, motor_torque_gcm, worst_case_radius ))
 
 
 

@@ -15,12 +15,15 @@ def FindRadii(gears : list[int], first, smallest) -> list[float]:
 def AddSpacing(radii : list[float], spacing) -> list[float]:
     return [radius + spacing for radius in radii]
 
-def MeetsRequiredRatio (gears : list[int], threshold) -> bool:
+def MeetsRequiredRatio (gears : list[int], threshold, efficiency) -> bool:
     ratio = gears[0]
+    effective_ratio = ratio * efficiency
     for gear in gears[1:]:
         ratio *= gear
+        effective_ratio *= gear * efficiency
 
     print("Ratio Achieved is: " + str(ratio))
+    print("Effective Ratio Achieved is: " + str(effective_ratio))
 
     return ratio >= threshold
 
@@ -64,30 +67,38 @@ def Draw(circles, size, top, left):
 
 if __name__ == "__main__":
     """INPUT VARIABLES"""
-    gears = [1,2,2,2,2,3]
+    # Motor:2.25 -> 1:2.25 -> 1:2.25, 1:2.25 -> 1:2.25 -> Shaft
+    gears = [2.25, 2.25, 2.25, 2.25]
     draw = True
 
-    size = (210, 297)
-    area = size[0] * size[1]
-
-    first_radius_mm = 18.5/2
+    # Small Gear Radius
     min_radius = 9
-    max_radius = max(size)/2
-
+    
+    # Motor Gear Radius
+    first_radius_mm = 18.5/2
+    
+    # adding added to gears
     radius_spacing = 0.2
 
-    threshold_gear_ratio = 44
+    # Efficiency between gear stages
+    efficiency = 0.95
 
-    
+    # Required Gear Ratio
+    threshold_gear_ratio = 48
+
+    # Size of the sheet
+    size = (210, 297)
+    """END INPUT VARIABLES"""
 
     radii = FindRadii(gears, first_radius_mm, min_radius)
     radii = AddSpacing(radii, radius_spacing)
 
-    MeetsRequiredRatio(gears, threshold_gear_ratio)
+    MeetsRequiredRatio(gears, threshold_gear_ratio, efficiency)
 
     canPack, minSize, circles = CanPack(radii, size)
 
     print("Can Pack: " + str(canPack))
     print("Packed Size: " + str((minSize[0] - minSize[1], minSize[2] - minSize[3])))
+
     if draw:
         Draw(circles, size, minSize[2], minSize[1])
