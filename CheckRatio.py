@@ -23,6 +23,8 @@ def MeetsRequiredRatio (gears : list[int], threshold, efficiency) -> bool:
         effective_ratio *= gear * efficiency
 
     print("Ratio Achieved is: " + str(ratio))
+
+    # This is only an approximation
     print("Effective Ratio Achieved is: " + str(effective_ratio))
 
     return ratio >= threshold
