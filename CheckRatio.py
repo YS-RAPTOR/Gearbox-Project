@@ -15,17 +15,12 @@ def FindRadii(gears : list[int], first, smallest) -> list[float]:
 def AddSpacing(radii : list[float], spacing) -> list[float]:
     return [radius + spacing for radius in radii]
 
-def MeetsRequiredRatio (gears : list[int], threshold, efficiency) -> bool:
+def MeetsRequiredRatio (gears : list[int], threshold) -> bool:
     ratio = gears[0]
-    effective_ratio = ratio * efficiency
     for gear in gears[1:]:
         ratio *= gear
-        effective_ratio *= gear * efficiency
 
     print("Ratio Achieved is: " + str(ratio))
-
-    # This is only an approximation
-    print("Effective Ratio Achieved is: " + str(effective_ratio))
 
     return ratio >= threshold
 
@@ -45,7 +40,7 @@ def CanPack(radii : list[float], size) -> tuple[bool, tuple[float], list[tuple[f
 
     return (maxX - minX <= size[0] and maxY - minY <= size[1]), (maxX , minX, maxY , minY), circles
 
-def Draw(circles, size, top, left):
+def Draw(radii, size, top, left):
     fig, ax = plt.subplots()
     cmap = get_cmap('coolwarm_r')
     circles = pc.pack(radii)
@@ -70,7 +65,7 @@ def Draw(circles, size, top, left):
 if __name__ == "__main__":
     """INPUT VARIABLES"""
     # Motor:2.25 -> 1:2.25 -> 1:2.25, 1:2.25 -> 1:2.25 -> Shaft
-    gears = [2.25, 2.25, 2.25, 2.25]
+    gears = [2.25, 2.25, 2.25, 2.3]
     draw = True
 
     # Small Gear Radius
@@ -95,7 +90,7 @@ if __name__ == "__main__":
     radii = FindRadii(gears, first_radius_mm, min_radius)
     radii = AddSpacing(radii, radius_spacing)
 
-    MeetsRequiredRatio(gears, threshold_gear_ratio, efficiency)
+    MeetsRequiredRatio(gears, threshold_gear_ratio)
 
     canPack, minSize, circles = CanPack(radii, size)
 
@@ -103,4 +98,4 @@ if __name__ == "__main__":
     print("Packed Size: " + str((minSize[0] - minSize[1], minSize[2] - minSize[3])))
 
     if draw:
-        Draw(circles, size, minSize[2], minSize[1])
+        Draw(radii, size, minSize[2], minSize[1])
