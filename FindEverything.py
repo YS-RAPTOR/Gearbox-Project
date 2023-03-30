@@ -6,7 +6,8 @@ if __name__ == "__main__":
 
     """INPUT VARIABLES"""
     # Motor:2.25 -> 1:2.25 -> 1:2.25, 1:2.25 -> 1:2.3 -> Shaft
-    gears = [2.25, 2.25, 2.25, 2.3]
+    gears = [1]
+
     draw = True
 
     # Small Gear Radius
