@@ -5,7 +5,6 @@ from CheckRatio import  AddSpacing, FindRadii, MeetsRequiredRatio, CanPack, Draw
 if __name__ == "__main__":
 
     """INPUT VARIABLES"""
-    # Motor:2.25 -> 1:2.25 -> 1:2.25, 1:2.25 -> 1:2.3 -> Shaft
     initial_stage = 1
     added_ratio = 1.77  
     
