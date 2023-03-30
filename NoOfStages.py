@@ -64,6 +64,8 @@ if __name__ == "__main__":
         gears.append(added_ratio)
         i += 1
 
+    print("")
+
     print("Optimal Gear Ratio: ", gears[:-1])
     print("Gear Ratio: ", gear_ratio)
     print("Gear Ratio with Efficiency: ", gear_ratio_with_efficiency)
