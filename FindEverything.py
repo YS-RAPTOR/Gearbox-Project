@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     """INPUT VARIABLES"""
     # Motor:2.25 -> 1:2.25 -> 1:2.25, 1:2.25 -> 1:2.3 -> Shaft
-    gears = [1]
+    gears = [1, 1.77, 1.77, 1.77, 1.77, 1.77, 1.77]
 
     draw = True
 

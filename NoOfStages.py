@@ -5,14 +5,14 @@ from CheckRatio import  AddSpacing, FindRadii, MeetsRequiredRatio, CanPack, Draw
 if __name__ == "__main__":
 
     """INPUT VARIABLES"""
-    initial_stage = 1
-    added_ratio = 1.77  
+    initial_stage = 1.5
+    added_ratio = 1.75
     
 
     # Small Gear Radius
     min_radius = 9
     
-    # Motor Gear Radius
+    # Motor Gear Raius
     first_radius_mm = 18.5/2
 
     # adding added to gears
